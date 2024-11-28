@@ -1,0 +1,28 @@
+# Template Submit for launching Job in HTCondor
+Executable = /bin/bash
+Universe = vanilla
+getenv = true
+
+# Submit information
+Log = condor.log
+Output = condor.out
+Error = condor.err
+
+# Resources requested
+Request_cpus = 10
+Request_memory = 10000
+Requirements = Machine =?= "m2be-intel05" || Machine =?= "m2be-intel07" || Machine =?= "m2be-intel08"
+
+# Input files
+Should_transfer_files = YES
+Transfer_input_files = inputs,ext_func,run_process.sh,src,topology.m,extract_variables.py,results
+Transfer_executable = false
+
+# Output files
+When_to_transfer_output = ON_EXIT_OR_EVICT
+Transfer_output_files = results.tar.gz
+
+# Command
+Arguments = -l ./run_process.sh
+
+Queue
